@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Homepage from "../views/Homepage.vue";
 import LoginPage from "../views/LoginPage.vue"
 import ShoppingArea from "../views/ShoppingArea.vue"
+import CheckoutPage from "../views/CheckoutPage.vue"
 
 const routes = [
     {
@@ -19,6 +20,11 @@ const routes = [
         path: '/shopping-area',
         name: 'ShoppingArea',
         component: ShoppingArea
+    },
+    {
+        path: '/checkout-area',
+        name: 'CheckoutArea',
+        component: CheckoutPage
     }
 ];
 

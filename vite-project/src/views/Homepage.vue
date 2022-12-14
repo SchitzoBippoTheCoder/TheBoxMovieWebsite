@@ -1,14 +1,13 @@
 <template>
-        <Header title="Welcome to The Box" tagline="What will YOU find today?" button-value="LOGIN"></Header>
+        <HeaderToLogin title="Welcome to The Box" tagline="What will YOU find today?" button-value="LOGIN"></HeaderToLogin>
         <div id="backgroundImage"></div>
         <h1 id="messageLine1">Want it? Box it!</h1>
-        <!-- <h3 id="messageLine2">Collect and watch your favourite movies today!</h3> -->
         <h3 id="messageLine2">Login to start collecting!</h3>
         <Footer message1="The Box" message2="Copyright © 2022 The Box, Inc." id="footer"></Footer>
 </template>
 
 <script setup>
-import Header from '../components/Header.vue'
+import HeaderToLogin from '../components/HeaderToLogin.vue'
 import Footer from '../components/Footer.vue'
 
 import { storeToRefs } from 'pinia';
@@ -44,7 +43,7 @@ const { username } = storeToRefs(index)
 
 #messageLine1 {
         position: absolute;
-        top: 43%;
+        top: 40%;
         left: 50%;
         transform: translate(-50%, -50%);
 
@@ -54,7 +53,11 @@ const { username } = storeToRefs(index)
         font-style: italic;
         font-weight: bolder;
 
+        font-size: 50px;
+
         color: white;
+
+        text-shadow: 5px 5px 5px black;
 }
 
 #messageLine2 {
@@ -70,7 +73,11 @@ const { username } = storeToRefs(index)
         font-style: italic;
         font-weight: bolder;
 
+        font-size: 23px;
+
         color: white;
+
+        text-shadow: 5px 5px 5px black;
 }
 
 #messageContainer {
