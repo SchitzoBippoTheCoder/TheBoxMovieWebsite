@@ -5,7 +5,7 @@
     </div>
     <div id="itemContainer">
         <div id="blurItemBackground"></div>
-        <ItemContainer v-for="option in finalMovieOptions" :id="option"></ItemContainer>
+        <ItemContainer v-for="option in finalMovieOptions" :title="option.title" :poster="option.poster"></ItemContainer>
     </div>
     <div id="paymentContainer">
         <h2 id="checkoutTitle">SUMMARY</h2>

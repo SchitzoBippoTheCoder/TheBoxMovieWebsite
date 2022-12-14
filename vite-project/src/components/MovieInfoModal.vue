@@ -81,7 +81,10 @@ function addToArray() {
         }
     }
 
-    index.addMovieItem(props.id);
+    index.addMovieItem({
+        title: title.value,
+        poster: moviePath.value,
+    });
     purchaseButton.value.value = "REMOVE"
 }
 

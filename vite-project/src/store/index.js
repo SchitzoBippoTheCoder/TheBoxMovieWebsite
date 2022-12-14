@@ -9,8 +9,8 @@ export const indexStore = defineStore("main", {
 
     },
     actions: {
-        addMovieItem(movieID){
-            this.movieItems.push(movieID);
+        addMovieItem(movieObject){
+            this.movieItems.push(movieObject);
             
         },
 
