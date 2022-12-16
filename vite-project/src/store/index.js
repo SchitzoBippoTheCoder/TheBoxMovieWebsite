@@ -4,6 +4,7 @@ export const indexStore = defineStore("main", {
     state: () => ({
         movieItems: [],
         resultOptions: [],
+        createdDiscoveryList: false,
     }),
     getters: {
 
@@ -20,6 +21,10 @@ export const indexStore = defineStore("main", {
 
         addResultOption(id){
             this.resultOptions.push({id});
+        },
+
+        finishList() {
+            this.createdDiscoveryList = true;
         }
     }
 })

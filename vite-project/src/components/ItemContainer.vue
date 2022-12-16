@@ -1,7 +1,6 @@
 <template>
     <div id="itemInfo">
         <img :src="moviePath" id="itemPoster"/>
-        <h2 id="movieTitle">{{ movieTitle }}</h2>
     </div>
     <br />
 </template>
@@ -24,7 +23,7 @@ const moviePath = ref(props.poster);
     height: 130px;
     position: relative;
 
-    margin-left: 200px;
+    margin-left: 550px;
     margin-bottom: 30px;
 }
 

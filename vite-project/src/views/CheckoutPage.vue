@@ -3,30 +3,43 @@
     <div id="backgroundImage">
 
     </div>
-    <div id="itemContainer">
-        <div id="blurItemBackground"></div>
-        <ItemContainer v-for="option in finalMovieOptions" :title="option.title" :poster="option.poster"></ItemContainer>
-    </div>
     <div id="paymentContainer">
-        <h2 id="checkoutTitle">SUMMARY</h2>
-        <hr id="line"/>
+        <h2 id="checkoutTitle">PAYMENT INFO</h2>
+        <hr id="line" />
         <h3 id="checkoutHeader">Order Details</h3>
-        <p class="checkoutContent">{{ finalMovieLength }} total items</p>
-        <ul>
-            <li class="checkoutContent">Check your list of movies before purchasing!</li>
-        </ul>
+        <p class="checkoutContent">Choose a payment method</p>
         <br />
         <br />
         <br />
         <br />
+        <br />
+        <br />
+        <input id="paymentButton" type="button" value="PAYPAL" />
+        <input id="paymentButton1" type="button" value="CREDIT/DEBIT" />
         <p id="checkoutArgeement">By completing this purchse, you agree to The Box's Terms and Conditions</p>
-        <input type="button" :value="finalButtonValue" id="checkoutButton"/>
+        <input type="button" value="COMPLETE PURCHASE" id="checkoutButton" />
+    </div>
+    <div id="productContainer">
+        <h2 id="checkoutTitle">SUMMARY</h2>
+        <hr id="line" />
+        <h3 id="checkoutHeader">Your Movie Box</h3>
+        <p class="checkoutContent">{{ finalMovieLength }} total item(s)</p>
+        <ul id="overflowBox">
+            <li class="checkoutContentList" v-for="option in finalMovieOptions">{{ option }}</li>
+        </ul>
+        <hr id="line" />
+        <br />
+        <h3 class="checkoutContent">Total: </h3>
+        <h3 class="checkoutContentLine">${{ parseFloat(finalMovieLength * 1.13).toFixed(2) }}</h3>
     </div>
 </template>
 
 <script setup>
+import axios from 'axios';
+
 import HeaderToShop from "../components/HeaderToShop.vue"
-import ItemContainer from "../components/ItemContainer.vue"
+
+import { ref } from "vue";
 
 import { indexStore } from "../store/index.js"
 import { storeToRefs } from 'pinia';
@@ -35,13 +48,36 @@ import { storeToRefs } from 'pinia';
 const index = indexStore();
 const { movieItems } = storeToRefs(index);
 
-let finalMovieOptions = movieItems.value;
-let finalMovieLength = movieItems.value.length;
-let finalButtonValue = "PURCHASE -- $" + finalMovieLength;
+let finalMovieOptions = ref([]);
+let finalMovieLength = movieItems.value.length;;
+
+for (let i = 0; i < movieItems.value.length; i++) {
+    let search = axios.get(`https://api.themoviedb.org/3/movie/${movieItems.value[i]}`, {
+        params: {
+            api_key: "e06cb446302dcf3a3cb1358720141aad",
+            append_to_response: "videos",
+            include_adult: false,
+        }
+    })
+
+    let searchResult = search.then((movieData) => {
+        finalMovieOptions.value.push(movieData.data.title);
+    })
+}
 
 </script>
 
 <style scoped>
+.productList {
+    margin-left: 550px;
+}
+
+#overflowBox {
+    height: 130px;
+
+    overflow-y: scroll;
+}
+
 #backgroundImage {
     position: fixed;
 
@@ -55,7 +91,7 @@ let finalButtonValue = "PURCHASE -- $" + finalMovieLength;
     background-image: url('../assets/movieBackground.jpg');
     background-size: cover;
 
-    filter: brightness(35%);
+    filter: brightness(20%);
 }
 
 #itemContainer {
@@ -69,13 +105,13 @@ let finalButtonValue = "PURCHASE -- $" + finalMovieLength;
 
     overflow-y: scroll;
     overflow-x: hidden;
-    
+
     top: 15px;
 
     height: 485px;
 }
 
-#itemContainer::-webkit-scrollbar {
+#overflowBox::-webkit-scrollbar {
     display: none;
 }
 
@@ -104,8 +140,37 @@ let finalButtonValue = "PURCHASE -- $" + finalMovieLength;
 
     margin-top: 0px;
     margin-left: 35px;
+    margin-bottom: 5px;
 
     width: 250px;
+
+    display: inline;
+}
+
+.checkoutContentList {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+
+    margin-top: 0px;
+    margin-left: 35px;
+    margin-bottom: 5px;
+
+    width: 250px;
+}
+
+.checkoutContentLine {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+
+    margin-top: 0px;
+    margin-left: 490px;
+    margin-bottom: 5px;
+
+    width: 250px;
+
+    display: inline;
 }
 
 #checkoutArgeement {
@@ -124,7 +189,7 @@ let finalButtonValue = "PURCHASE -- $" + finalMovieLength;
     position: fixed;
 
     top: 125px;
-    right: 240px;
+    left: 150px;
 
     background-color: whitesmoke;
 
@@ -139,11 +204,32 @@ let finalButtonValue = "PURCHASE -- $" + finalMovieLength;
     border-radius: 10px;
 }
 
-#line {
-    width: 87%;
+#productContainer {
+
+    position: fixed;
+
+    top: 125px;
+    left: 550px;
+
+    background-color: whitesmoke;
+
+    height: 450px;
+    width: 650px;
+
+
+    box-shadow: -5px 10px 5px black;
+
+    z-index: 99999999;
+
+    border-radius: 10px;
 }
 
-#checkoutButton{
+
+#line {
+    width: 90%;
+}
+
+#checkoutButton {
     outline: transparent;
     border-color: transparent;
 
@@ -164,12 +250,69 @@ let finalButtonValue = "PURCHASE -- $" + finalMovieLength;
 
     margin-top: 0px;
     margin-left: 35px;
+    margin-bottom: 10px;
 
     border-style: solid;
     border-color: black;
 }
 
-#checkoutButton:hover{
+#paymentButton {
+    outline: transparent;
+    border-color: transparent;
+
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+
+    vertical-align: middle;
+
+    background-color: white;
+    color: black;
+
+    height: 25px;
+    width: 130px;
+
+    letter-spacing: 1px;
+
+    margin-top: 0px;
+    margin-left: 35px;
+    margin-bottom: 30px;
+
+    border-style: solid;
+    border-color: black;
+
+    display: inline;
+}
+
+#paymentButton1 {
+    outline: transparent;
+    border-color: transparent;
+
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+
+    vertical-align: middle;
+
+    background-color: white;
+    color: black;
+
+    height: 25px;
+    width: 130px;
+
+    letter-spacing: 1px;
+
+    margin-top: 0px;
+    margin-left: 10px;
+    margin-bottom: 30px;
+
+    border-style: solid;
+    border-color: black;
+
+    display: inline;
+}
+
+#checkoutButton:hover {
     border-style: solid;
 
     color: white;

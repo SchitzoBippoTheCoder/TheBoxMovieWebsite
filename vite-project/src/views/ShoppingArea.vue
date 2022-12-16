@@ -33,8 +33,10 @@ const index = indexStore();
 
 const { movieItems } = storeToRefs(index);
 const { resultOptions } = storeToRefs(index);
+const { createdDiscoveryList } = storeToRefs(index);
 
 const itemLength = ref();
+let isMovieMade = createdDiscoveryList.value;
 
 watch(() => {
     itemLength.value = movieItems.value.length
@@ -58,10 +60,15 @@ let discoverySearch = axios.get('https://api.themoviedb.org/3/discover/movie?api
 })
 
 let discoverySearchResult = discoverySearch.then((result) => {
+    if (isMovieMade === true)
+        return;
+
     for (let i = 0; i < result.data.results.length; i++) {
         index.addResultOption(result.data.results[i].id);
     }
 })
+
+index.finishList();
 
 function showMovieModal(searchMovieID) {
     showModal.value = true;

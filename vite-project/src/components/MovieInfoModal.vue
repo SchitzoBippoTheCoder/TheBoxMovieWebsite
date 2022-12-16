@@ -59,7 +59,7 @@ let searchResult = search.then((movieData) => {
     movieBackground.value.style.backgroundImage = `url(https://image.tmdb.org/t/p/w500/${movieData.data.backdrop_path})`;
 
     moviePath.value = `https://image.tmdb.org/t/p/w500/${movieData.data.poster_path}`;
-    title.value = movieData.data.original_title;
+    title.value = movieData.data.title;
     releaseDate.value = movieData.data.release_date;
     overview.value = movieData.data.overview;
     trailerSrc.value = "https://www.youtube.com/embed/" + (movieData.data.videos.results.filter((trailer) => trailer.type === "Trailer")).at(0).key;
@@ -81,10 +81,7 @@ function addToArray() {
         }
     }
 
-    index.addMovieItem({
-        title: title.value,
-        poster: moviePath.value,
-    });
+    index.addMovieItem(props.id);
     purchaseButton.value.value = "REMOVE"
 }
 
