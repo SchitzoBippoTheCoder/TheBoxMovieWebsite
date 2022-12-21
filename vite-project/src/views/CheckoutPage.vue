@@ -10,12 +10,16 @@
         <p class="checkoutContent">Choose a payment method</p>
         <br />
         <br />
+        <div id="paypalContainer">
+            <img src="../assets/paypal-3384015_640.png" id="paypalLogo">
+            <input id="paymentButton" type="button" value="PAYPAL" />
+        </div>
+        <div id="creditContainer">
+            <img src="../assets/card-6518547_640.png" id="creditLogo">
+            <input id="paymentButton1" type="button" value="CREDIT/DEBIT" />
+        </div>
         <br />
         <br />
-        <br />
-        <br />
-        <input id="paymentButton" type="button" value="PAYPAL" />
-        <input id="paymentButton1" type="button" value="CREDIT/DEBIT" />
         <p id="checkoutArgeement">By completing this purchse, you agree to The Box's Terms and Conditions</p>
         <input type="button" value="COMPLETE PURCHASE" id="checkoutButton" />
     </div>
@@ -25,7 +29,7 @@
         <h3 id="checkoutHeader">Your Movie Box</h3>
         <p class="checkoutContent">{{ finalMovieLength }} total item(s)</p>
         <ul id="overflowBox">
-            <li class="checkoutContentList" v-for="option in finalMovieOptions">{{ option }}</li>
+            <li class="checkoutContentList" v-for="option in finalMovieOptions" @click="">{{ option }}</li>
         </ul>
         <hr id="line" />
         <br />
@@ -49,7 +53,7 @@ const index = indexStore();
 const { movieItems } = storeToRefs(index);
 
 let finalMovieOptions = ref([]);
-let finalMovieLength = movieItems.value.length;;
+let finalMovieLength = ref(movieItems.value.length);
 
 for (let i = 0; i < movieItems.value.length; i++) {
     let search = axios.get(`https://api.themoviedb.org/3/movie/${movieItems.value[i]}`, {
@@ -157,6 +161,8 @@ for (let i = 0; i < movieItems.value.length; i++) {
     margin-bottom: 5px;
 
     width: 250px;
+
+    color: black;
 }
 
 .checkoutContentLine {
@@ -165,7 +171,7 @@ for (let i = 0; i < movieItems.value.length; i++) {
     font-weight: normal;
 
     margin-top: 0px;
-    margin-left: 490px;
+    margin-left: 485px;
     margin-bottom: 5px;
 
     width: 250px;
@@ -243,7 +249,7 @@ for (let i = 0; i < movieItems.value.length; i++) {
     background-color: white;
     color: black;
 
-    height: 25px;
+    height: 30px;
     width: 200px;
 
     letter-spacing: 1px;
@@ -254,6 +260,7 @@ for (let i = 0; i < movieItems.value.length; i++) {
 
     border-style: solid;
     border-color: black;
+    border-radius: 5px;
 }
 
 #paymentButton {
@@ -269,19 +276,23 @@ for (let i = 0; i < movieItems.value.length; i++) {
     background-color: white;
     color: black;
 
-    height: 25px;
-    width: 130px;
+    height: 30px;
+    width: 285px;
 
     letter-spacing: 1px;
 
     margin-top: 0px;
     margin-left: 35px;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
 
     border-style: solid;
     border-color: black;
+    border-radius: 5px;
 
     display: inline;
+
+    text-align: left;
+    padding-left: 22px;
 }
 
 #paymentButton1 {
@@ -297,19 +308,41 @@ for (let i = 0; i < movieItems.value.length; i++) {
     background-color: white;
     color: black;
 
-    height: 25px;
-    width: 130px;
+    height: 30px;
+    width: 280px;
 
     letter-spacing: 1px;
 
     margin-top: 0px;
     margin-left: 10px;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
 
     border-style: solid;
     border-color: black;
+    border-radius: 5px;
 
     display: inline;
+
+    text-align: left;
+    padding-left: 17px;
+}
+
+#paymentButton:hover {
+    border-style: solid;
+
+    color: white;
+    background-color: black;
+    border-color: black;
+    border-width: 2px;
+}
+
+#paymentButton1:hover {
+    border-style: solid;
+
+    color: white;
+    background-color: black;
+    border-color: black;
+    border-width: 2px;
 }
 
 #checkoutButton:hover {
@@ -333,5 +366,38 @@ for (let i = 0; i < movieItems.value.length; i++) {
     margin-top: 100px;
 
     top: 0px;
+}
+
+#paypalContainer {
+    margin-left: 15px;
+}
+
+#creditContainer {
+    margin-left: 45px;
+    margin-bottom: 5px;
+}
+
+#paypalLogo {
+    height: 26px;
+    width: 26px;
+
+    border-style: solid;
+    border-color: black;
+    border-radius: 5px;
+
+    border-width: 2px;
+}
+
+#creditLogo {
+    height: 26px;
+    width: 26px;
+
+    border-style: solid;
+    border-color: black;
+    border-radius: 5px;
+
+    border-width: 2px;
+
+    margin-left: -10px;
 }
 </style>
